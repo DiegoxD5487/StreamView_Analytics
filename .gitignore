@@ -1,0 +1,15 @@
+# Entorno virtual
+.venv/
+venv/
+
+# Caché de Python
+__pycache__/
+*.pyc
+
+# Configuración local
+.env
+.streamlit/secrets.toml
+
+# Archivos temporales
+.DS_Store
+Thumbs.db
