@@ -1,111 +1,91 @@
-# StreamView Analytics · Dashboard EV3
+# StreamView Analytics
 
-Dashboard web en **Streamlit + Plotly + Pandas**, construido a partir de la base académica StreamView. **No altera el proyecto original de Power BI.**
+**Proyecto de Visualización de Datos · ADY1104**
 
-## Novedades de esta edición
+StreamView Analytics es un proyecto académico que busca transformar la información de un catálogo audiovisual en visualizaciones claras y útiles para la toma de decisiones.
 
-- **Interfaz web nueva:** fondo limpio mediante CSS, encabezado corporativo y **tres páginas** bien diferenciadas. El fondo antiguo con cajas predibujadas no se usa porque se superponía a los componentes interactivos.
-- **Navegación centrada**, con estado conservado al cambiar de pestaña.
-- **Cuatro filtros compartidos**: tipo de contenido, género principal, país principal y periodo de estreno.
-- **Selección de país en el gráfico de barras del Resumen Ejecutivo** que actualiza el resto de indicadores y gráficos. También está habilitada la selección de puntos en el mapa de la segunda página. En caso de que el navegador no reconozca la pulsación del mapa, usa el selector de país de la barra superior.
-- Gráficos responsivos con textos visibles, paneles blancos y colores institucionales azul/morado/violeta/dorado.
-- Tabla de consulta dentro de desplegables y análisis editorial con más contexto empresarial.
-- Página **Decisiones estratégicas** con indicadores de cobertura de muestra, recomendaciones preliminares justificadas, benchmark financiero prudente, límites de interpretación e impacto esperado.
-- En **Potencial de contenido**, los rankings de géneros exigen por defecto al menos 100 títulos y una **mediana de 10 votos por título**; los límites se pueden modificar desde los controles. Esto evita que categorías con popularidad alta pero escasísimas votaciones dominen el análisis.
-- La **matriz de decisiones editoriales** presenta variables observadas (títulos, participación, popularidad, valoración y mediana de votos) y un foco descriptivo de revisión, **sin índices artificiales presentados como predicciones**.
-- Los **KPI de la página estratégica comparten el mismo universo financiero**: presupuesto ≥ 1.000.000, recaudación positiva y al menos 100 votos. La cobertura se calcula sobre el número de películas de la selección filtrada.
-- **Sin botones para descargar datos**: el sitio está pensado para la presentación del análisis.
+En este caso asumimos el rol de un equipo de análisis que asesora a una plataforma de streaming ficticia. Nuestro objetivo es identificar patrones en su oferta de películas y series, comparar su popularidad y valoración, y proponer líneas de acción para las áreas de gerencia, contenidos y marketing.
 
-## Instalación en Windows / VS Code
+La solución se desarrolló con **Python y Streamlit**, tomando como punto de partida el trabajo de preparación de datos y visualización realizado durante el semestre.
 
-**Importante:** abre en VS Code la carpeta `StreamView_Streamlit` que contiene directamente `app.py` y `requirements.txt`.
+## ¿Qué problema buscamos resolver?
+
+Un catálogo amplio no garantiza, por sí solo, que sus contenidos respondan a las prioridades del negocio. Para tomar mejores decisiones es necesario conocer qué géneros tienen mayor presencia, cómo se distribuyen los títulos por país, qué contenidos muestran mejores indicadores de popularidad y valoración, y qué límites tienen esas mediciones.
+
+StreamView Analytics reúne estos antecedentes en un dashboard interactivo para apoyar tres preguntas:
+
+- **Gerencia:** ¿cómo está compuesto el catálogo y qué aspectos conviene revisar?
+- **Gestión de contenidos:** ¿qué géneros presentan oportunidades para profundizar el análisis de adquisición o curaduría?
+- **Marketing:** ¿qué contenidos y segmentos podrían evaluarse para futuras acciones de promoción?
+
+## Dashboard interactivo
+
+El sitio está organizado en tres secciones:
+
+### 1. Resumen Ejecutivo
+Presenta los principales indicadores del catálogo, su distribución entre películas y series, y los géneros y países con mayor presencia. Permite observar cómo cambian estos resultados al aplicar filtros.
+
+### 2. Potencial de contenido
+Compara popularidad, valoración y presencia de los contenidos por género, idioma y país. Incluye visualizaciones para detectar diferencias entre el tamaño de la oferta y el desempeño observado en los datos.
+
+### 3. Decisiones estratégicas
+Relaciona los hallazgos con posibles decisiones editoriales y criterios de comparación financiera de películas. También presenta consideraciones metodológicas, riesgos de interpretación y propuestas de mejora.
+
+En las tres secciones se utilizan indicadores, filtros, gráficos interactivos y textos de apoyo orientados a explicar los resultados, no solo a mostrarlos.
+
+## Datos y alcance del análisis
+
+La base integrada contiene **31.991 títulos: 16.000 películas y 15.991 series**. Para preparar el conjunto de datos se trabajó con información descriptiva del catálogo, como género, país, idioma y año de estreno, además de popularidad, votaciones y datos financieros disponibles para películas.
+
+Es importante considerar que:
+
+- La **popularidad** y la **valoración** son indicadores presentes en el dataset; no representan reproducciones, tiempo de visualización ni retención real de suscriptores.
+- Para las comparaciones por género y país se utiliza una **categoría principal por título**. Esto simplifica los gráficos, pero no refleja todas las categorías asociadas a cada obra.
+- Los análisis financieros se limitan a películas con datos suficientes. La relación **recaudación/presupuesto** es un múltiplo bruto, no una medida de ganancias netas ni de rentabilidad de la plataforma.
+- Algunas comparaciones aplican umbrales mínimos de títulos, votos o presupuesto para evitar conclusiones basadas en muestras demasiado reducidas.
+
+Por estas razones, las recomendaciones del dashboard se plantean como **orientaciones para la evaluación de alternativas**, no como decisiones automáticas ni resultados comerciales comprobados.
+
+## Tecnologías utilizadas
+
+- **Python y Pandas:** preparación, filtrado y análisis de datos.
+- **Streamlit:** desarrollo de la aplicación web y sus controles interactivos.
+- **Plotly:** construcción de los gráficos.
+- **Git y GitHub:** organización y control de versiones del proyecto.
+
+## Ejecutar el proyecto en Windows
+
+Abre la carpeta `StreamView_Analytics` en Visual Studio Code. Desde su terminal, ejecuta los siguientes comandos:
 
 ```powershell
-# Si ya tienes Streamlit instalado en el entorno del proyecto, omite los dos primeros comandos.
 py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Abre `http://localhost:8501` (se abre habitualmente solo).
+Luego abre **http://localhost:8501** en el navegador.
 
-Si la terminal dice «no such file requirements.txt», verifica `dir`; probablemente estás en la carpeta externa del ZIP, no en la carpeta `StreamView_Streamlit`.
+Si ya tienes el entorno virtual creado y las dependencias instaladas, solo necesitas ejecutar el último comando.
 
-Para actualizar la versión antigua: realiza un respaldo, y reemplaza `app.py` y los demás archivos de esta carpeta; no es necesario copiar el entorno `.venv` desde un ZIP viejo.
-
-## Estructura
+## Organización de archivos
 
 ```text
-StreamView_Streamlit/
-├── app.py                      # Navegación, filtros, visuales y storytelling
-├── analytics.py                # Heurísticas y comparaciones de negocio
-├── core.py                     # Importación, filtros, KPI y agregaciones
-├── requirements.txt
+StreamView_Analytics/
+├── app.py                 # Interfaz, navegación y visualizaciones
+├── analytics.py           # Análisis complementarios y criterios de comparación
+├── core.py                # Lectura de datos, filtros e indicadores
+├── requirements.txt       # Dependencias de Python
 ├── README.md
-├── .streamlit/config.toml
-├── recursos/
-│   ├── logo_streamview.png
-│   ├── bg_resumen.png          # Referencia de diseño (no se aplica como wallpaper)
-│   └── bg_potencial.png        # Referencia de diseño (no se aplica como wallpaper)
+├── .streamlit/
+│   └── config.toml        # Configuración de la aplicación
 ├── datos/
 │   └── STREAMVIEW_POWERBI.csv
-└── pruebas/
-    ├── test_core.py
-    └── test_analytics.py
+├── recursos/              # Logotipo, fondo e imágenes del proyecto
+└── pruebas/               # Pruebas del procesamiento y análisis
 ```
 
-## Selección cruzada de país
+## Contexto de la evaluación
 
-1. En **Resumen Ejecutivo**, haz clic en una barra del gráfico **Países con mayor presencia**.
-2. El país seleccionado aparece en una cápsula sobre los gráficos y el resto de indicadores/gráficos refleja ese país.
-3. Presiona **✕ Quitar país** para restablecer la vista sin país seleccionado.
-4. El filtro `País principal` de la barra superior funciona en las tres páginas. Una selección manual en el desplegable reemplaza la selección que proviene del gráfico.
-5. En **Potencial de contenido**, también puedes intentar seleccionar las burbujas del mapa; el filtro superior siempre está disponible.
+Este proyecto forma parte del trabajo de la asignatura **Visualización de Datos (ADY1104)**. Su desarrollo considera las actividades de construcción de la solución (**EP5**) y su presentación y defensa (**EP6**).
 
-Los gráficos Plotly permiten ver detalles al pasar el cursor. `st.plotly_chart` utiliza `on_select="rerun"`, disponible en Streamlit moderno. La interacción del clic en un gráfico depende del navegador y de la versión de Streamlit; si no se reconoce, utiliza el desplegable.
-
-## Alcance de los datos y advertencias
-
-El dataset contiene 31.991 títulos (16.000 películas y 15.991 series). El análisis es **académico** y no dispone de datos operativos de reproducciones, retención o suscripciones.
-
-- `popularity` y `vote_average` son **metadatos**, no consumo real de la plataforma.
-- Se utiliza el **primer género y país** registrado por título para evitar duplicidad de registros; esto limita el análisis de películas con múltiples géneros/países.
-- El indicador `revenue/budget` es un **múltiplo bruto de recaudación/presupuesto**, no el ROI ni los beneficios reales de StreamView.
-- La diferencia `revenue - budget` tampoco es la ganancia neta de la plataforma.
-- En la tercera página, las **comparaciones de películas** solo consideran títulos con presupuesto ≥ 1.000.000 y al menos 100 votos. Esto evita que presupuestos simbólicos eleven el ranking a valores absurdos. El KPI global de recaudación/presupuesto mantiene su definición de la evaluación anterior (títulos con presupuesto e ingresos mayores a cero).
-- La **matriz editorial** no es un modelo predictivo. Clasifica géneros mediante comparaciones con medianas de los géneros elegibles; un foco «Evaluar expansión» significa **investigar una alternativa**, no aprobar su adquisición. Requiere ≥100 títulos por género y ≥10 votos de mediana por título.
-- «Géneros con muestra suficiente» solo exige ≥100 títulos; el número de géneros con respaldo de votos que integra la matriz puede ser menor.
-- El KPI **Cobertura de la muestra financiera** es `películas comparables / total de películas filtradas`. En el catálogo completo: 3.132/16.000 = 19,6 %.
-- El KPI **Recaudación/presupuesto** de **Decisiones estratégicas** es `suma(recaudación comparable) / suma(presupuesto comparable)` y vale 2,94× sin filtros. El KPI del **Resumen Ejecutivo** preserva la definición general anterior (películas con presupuesto e ingresos positivos), que da 2,92× sobre 3.540 películas. Son bases diferentes y se muestran expresamente como tales. No representan rentabilidad de StreamView.
-- Los KPI editoriales y financieros se recalculan al seleccionar un tipo, país, género y período de estreno.
-
-## Indicadores y aplicación empresarial
-
-| Indicador | Qué mide | Uso apropiado |
-|---|---|---|
-| Géneros con muestra suficiente | Cantidad de géneros principales con ≥100 títulos | Determinar cuántos grupos tienen tamaño mínimo para una comparación. |
-| Películas comparables | Películas con presupuesto ≥1.000.000, recaudación positiva y ≥100 votos | Crear un conjunto de referencia para análisis financiero descriptivo. |
-| Cobertura de la muestra financiera | Porcentaje de películas que cumplen los requisitos de comparación | Advertir cuándo un análisis depende de una fracción reducida del catálogo. |
-| Recaudación / presupuesto | Suma de ingresos cinematográficos / suma de presupuesto cinematográfico en películas comparables | Comparar magnitudes de recaudo e inversión, no beneficios de la plataforma. |
-
-La página estratégica se organiza con la secuencia **evidencia → implicación → decisión preliminar → limitación**. Los beneficios operativos son esperados, todavía no medidos; deben validarse con mediciones antes y después.
-
-## Validación
-
-Desde la carpeta del proyecto:
-
-```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-Se validan recuentos, valores agregados, integridad de registros, filtrado y reglas de oportunidad/benchmark.
-
-## Publicación en Streamlit Community Cloud
-
-1. Sube **solo los archivos del proyecto**, sin `.venv`, a un repositorio en GitHub.
-2. Asegúrate de que `requirements.txt`, `app.py`, `core.py`, `analytics.py`, `data/` y `assets/` estén presentes.
-3. En https://share.streamlit.io, inicia sesión con GitHub y elige el repositorio.
-4. Selecciona como archivo principal `app.py` (si subes la carpeta completa como raíz, la ruta puede ser `StreamView_Streamlit/app.py`).
-5. Comprueba públicamente los filtros y la navegación antes de la defensa.
-
-**Evaluación:** la web sirve para la demostración, pero las pautas EP5 y EP6 también solicitan el informe ejecutivo en PDF, la presentación ejecutiva en PDF/PPT y los archivos reproducibles.
+El dashboard sirve como apoyo a la exposición y al análisis de resultados. El informe ejecutivo y la presentación formal complementan la solución, documentando las decisiones de diseño, los hallazgos, las limitaciones y las recomendaciones para StreamView Analytics.
